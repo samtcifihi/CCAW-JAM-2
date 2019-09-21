@@ -18,6 +18,7 @@ func main() {
 
 	var wordsPerTrial uint64
 	prompt := ""
+	reply := ""
 
 	var stillPlaying = true
 	for stillPlaying == true {
@@ -33,10 +34,27 @@ func main() {
 		}
 		fmt.Println(prompt)
 		fmt.Println()
+		fmt.Println("Please hit enter to continue.")
+		getUserReply() // Wait for user okay
+
+		// Clear the Screen
+		clearScreen()
 
 		// Get user input
+		fmt.Println("Please Enter the Words:")
+		reply = getUserReply()
+
 		// Compare to prompt to determine if won; check (len(prompt) - 1) / 5 to determine score (the -1 is for the space at the end)
 		// Or just check wordsPerTrial
+		// prompt = strings.Replace(prompt, " ", "", -1)
+		// reply = strings.Replace(reply, " ", "", -1)
+		if strings.Replace(prompt, " ", "", -1) == strings.Replace(reply, " ", "", -1) {
+			fmt.Println("Congratulations! You have memorized", wordsPerTrial, "nonce constructions!")
+		} else {
+			fmt.Println("Sorry, you did not succeed in memorizing", wordsPerTrial, "nonce constructions. Here are is the comparison:")
+			fmt.Println(prompt)
+			fmt.Println(reply)
+		}
 
 		// ask if the user wishes to play again
 	}
@@ -68,6 +86,23 @@ func getNumberOfWords(wordsPerTrial *uint64) {
 			*wordsPerTrial = uintUserInput
 		}
 	} // User has entered a valid choice
+}
+
+func getUserReply() string {
+	// Initializes New Reader
+	cin := bufio.NewReader(os.Stdin)
+
+	userReply, _ := cin.ReadString('\n')
+	userReply = strings.Replace(userReply, "\n", "", -1)
+
+	return userReply
+}
+
+// There are better ways to do this, so it's in it's own function for easy bebetterment later.
+func clearScreen() {
+	for lines := 0; lines < 0x80; lines++ {
+		fmt.Println()
+	}
 }
 
 // Generate a pseudo-word for the English language
@@ -248,6 +283,7 @@ func genWord() string {
 // Choose a random element from an array
 func genCluster(validStrings []string) string {
 	// Seeded Random Number Generator
+	// Really should pass this into the function from main
 	randGen := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	cluster := validStrings[randGen.Intn(len(validStrings))]
