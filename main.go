@@ -56,11 +56,15 @@ func main() {
 			fmt.Println(reply)
 		}
 
-		// ask if the user wishes to play again
-	}
+		// Ask if the user wishes to play again
+		fmt.Println("Would you like to play again? (Y/n)")
+		userWantsToPlay := getUserReply()
 
-	fmt.Println("Genned Word: ", genWord()) // Debugging
-	fmt.Println("Execution Completed")      // Debugging
+		if userWantsToPlay != "Y" && userWantsToPlay != "y" {
+			stillPlaying = false
+			fmt.Println("Goodbye, and thank you for playing!")
+		}
+	}
 }
 
 func getNumberOfWords(wordsPerTrial *uint64) {
