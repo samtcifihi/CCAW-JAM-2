@@ -13,7 +13,7 @@ import (
 func main() {
 	fmt.Println("You will be shown a chosen number of nonce constructions.")
 	fmt.Println("You will then attempt to type them in accurately.")
-	fmt.Println("Everything will be lowercase, but be conservative as there are no misakes accepted.")
+	fmt.Println("Everything will be lowercase, but be conservative as there will be no misakes accepted.")
 	fmt.Println()
 
 	var wordsPerTrial uint64
